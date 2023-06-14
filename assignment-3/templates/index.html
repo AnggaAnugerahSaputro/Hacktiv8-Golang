@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content="5" />
+    <title>Weather Status</title>
+    <style>
+    .body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .card {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .card-left {
+        flex-basis: 49%;
+    }
+    
+    .card-right {
+        flex-basis: 49%;
+    }
+    
+    h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .danger {
+        color: #ff0000;
+    }
+
+    .warning {
+        color: #007bff;
+    }
+    
+    .safe {
+        color: #28a745;
+    }
+
+    .danger-card {
+        background-color: #ffe6e6;
+    }
+
+    .warning-card {
+        background-color: #e6f2ff;
+    }
+
+    .safe-card {
+        background-color: #e6ffe6;
+    }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="card card-left {{if eq .WindStatus "bahaya"}}danger-card{{else if eq .WindStatus "siaga"}}warning-card{{else}}safe-card{{end}}">
+                <h1>Wind Status: {{.Wind}}</h1>
+                {{if eq .WindStatus "bahaya"}}
+                    <h2 class="danger">Status: {{.WindStatus}}</h2>
+                {{else if eq .WindStatus "siaga"}}
+                    <h2 class="warning">Status: {{.WindStatus}}</h2>
+                {{else}}
+                    <h2 class="safe">Status: {{.WindStatus}}</h2>
+                {{end}}
+            </div>
+
+            <div class="card card-right {{if eq .WaterStatus "bahaya"}}danger-card{{else if eq .WaterStatus "siaga"}}warning-card{{else}}safe-card{{end}}">
+                <h1>Water Status: {{.Water}}</h1>
+                {{if eq .WaterStatus "bahaya"}}
+                    <h2 class="danger">Status: {{.WaterStatus}}</h2>
+                {{else if eq .WaterStatus "siaga"}}
+                    <h2 class="warning">Status: {{.WaterStatus}}</h2>
+                {{else}}
+                    <h2 class="safe">Status: {{.WaterStatus}}</h2>
+                {{end}}
+            </div>
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,8 @@
+{
+ "status": {
+  "water": 95,
+  "wind": 12
+ },
+ "water_status": "bahaya",
+ "wind_status": "siaga"
+}

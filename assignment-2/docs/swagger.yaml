@@ -1,0 +1,277 @@
+basePath: /
+definitions:
+  dto.DeleteOrderResponse:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  dto.GetAllOrderResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/dto.OrderResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  dto.ItemResponse:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      itemcode:
+        type: string
+      orderid:
+        type: integer
+      quantity:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  dto.NewItemRequest:
+    properties:
+      description:
+        type: string
+      itemCode:
+        type: string
+      quantity:
+        type: integer
+    type: object
+  dto.NewOrderRequest:
+    properties:
+      customerName:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/dto.NewItemRequest'
+        type: array
+      orderedAt:
+        type: string
+    required:
+    - customerName
+    - items
+    - orderedAt
+    type: object
+  dto.NewOrderResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.NewOrderRequest'
+      message:
+        type: string
+    type: object
+  dto.NewOrderUpdateResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        $ref: '#/definitions/dto.OrderResponse'
+      message:
+        type: string
+    type: object
+  dto.OrderResponse:
+    properties:
+      createdAt:
+        type: string
+      customerName:
+        type: string
+      id:
+        type: integer
+      items:
+        items:
+          $ref: '#/definitions/dto.ItemResponse'
+        type: array
+      orderedAt:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  errs.MessageErrData:
+    properties:
+      error:
+        example: BAD_REQUEST
+        type: string
+      message:
+        example: This is an error message
+        type: string
+      statusCode:
+        example: 400
+        type: integer
+    type: object
+host: localhost:3000
+info:
+  contact:
+    name: Swagger API Team
+  description: This is a server for Order Items.
+  termsOfService: http://swagger.io/terms/
+  title: Order Items Documentation
+  version: "1.0"
+paths:
+  /orders:
+    get:
+      description: Get all orders by json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.GetAllOrderResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Get all orders
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Create a Orders by json
+      parameters:
+      - description: Create orders request body
+        in: body
+        name: orders
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.NewOrderResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Create a Orders
+      tags:
+      - orders
+  /orders/{orderId}:
+    delete:
+      description: Delete a orders by param
+      parameters:
+      - description: order ID request
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.DeleteOrderResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Delete a orders
+      tags:
+      - orders
+    get:
+      consumes:
+      - application/json
+      description: Get order by id json
+      parameters:
+      - description: orders ID request
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.NewOrderUpdateResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Get order by id
+      tags:
+      - orders
+    put:
+      consumes:
+      - application/json
+      description: Update a orders
+      parameters:
+      - description: Update orders request body
+        in: body
+        name: orders
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewOrderRequest'
+      - description: orders ID request
+        in: path
+        name: orderId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.NewOrderUpdateResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/errs.MessageErrData'
+      summary: Update a orders
+      tags:
+      - orders
+swagger: "2.0"
